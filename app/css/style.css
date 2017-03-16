@@ -1,4 +1,6 @@
 @charset "UTF-8";
+/*Custom -- START*/
+/*Custom -- END*/
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
 @font-face {
   font-family: 'sf_ui_displaybold';
@@ -35,6 +37,8 @@
   font-weight: normal;
   font-style: normal; }
 
+/*Custom -- START*/
+/*Custom -- END*/
 body {
   margin: 0;
   padding: 0;
@@ -223,6 +227,9 @@ button {
 .icon-warning:before {
   content: ""; }
 
+/*Custom -- START*/
+/*Custom -- END*/
+/*Default -- START*/
 .flex-container {
   display: -webkit-box;
   display: -webkit-flex;
@@ -242,20 +249,31 @@ button {
   z-index: 999;
   background: #fff; }
 
+/*Default -- END*/
+/*Custom -- START*/
+/*Custom -- END*/
+/*Custom -- START*/
 .container {
   max-width: 1230px;
   margin: 0 auto;
   padding: 0 15px; }
 
-.header {
-  background: #00a2f4;
-  padding: 35px 0;
-  height: 100px; }
-  .header .flex-container {
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-        -ms-flex-pack: justify;
-            justify-content: space-between; }
+.fixed-to-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: #fff; }
+  .fixed-to-top .header {
+    background: #00a2f4;
+    padding: 35px 0;
+    height: 100px; }
+    .fixed-to-top .header .flex-container {
+      -webkit-box-pack: justify;
+      -webkit-justify-content: space-between;
+          -ms-flex-pack: justify;
+              justify-content: space-between; }
 
 .add-task {
   width: 6em;
@@ -267,9 +285,19 @@ button {
   -webkit-transform: translateY(55%);
       -ms-transform: translateY(55%);
           transform: translateY(55%); }
-  .add-task > * {
-    font-size: 3em;
-    color: #fff; }
+  .add-task > span {
+    position: absolute;
+    width: 30px;
+    height: 4px;
+    background: #fff;
+    left: 14px;
+    top: 30px;
+    -webkit-border-radius: 2px;
+            border-radius: 2px; }
+  .add-task > span + span {
+    -webkit-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+            transform: rotate(90deg); }
 
 .user-nav {
   font-size: 3em;
@@ -291,7 +319,7 @@ button {
       margin-right: .3em;
       color: #bebebe; }
 
-.main {
+main {
   padding-top: 218px; }
 
 .task-day {
@@ -322,15 +350,19 @@ button {
   position: relative;
   max-width: -webkit-calc( 600px + 5.4em);
   max-width: calc( 600px + 5.4em); }
-  .task.open .task-contant-wrap {
+  .task.open .task-content-wrap {
     display: block; }
   .task.open .task-header {
     -webkit-border-radius: 1em 1em 0 0;
             border-radius: 1em 1em 0 0; }
   .task.success .task-header {
     background: #7cbb00; }
+  .task.success .task-message.done {
+    display: block; }
   .task.warning .task-header {
     background: #ff5201; }
+  .task.warning .task-message.deadline {
+    display: block; }
   .task + .task {
     margin-top: 4em; }
   .task .task-header {
@@ -351,15 +383,12 @@ button {
     .task .task-header .short-task-text {
       width: 80%;
       font-size: 1.4em;
-      word-space: nowrap;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis; }
     .task .task-header .icon-arrow {
       font-size: .6em; }
-    .task .task-header .icon-cancel {
-      font-size: 2em;
-      margin-top: -8px; }
-  .task .task-contant-wrap {
+  .task .task-content-wrap {
     display: none;
     padding: 1.5em;
     -webkit-border-radius: 0 0 1em 1em;
@@ -371,22 +400,60 @@ button {
     line-height: 1.3;
     -webkit-box-shadow: 0px 5px 16px 5px rgba(0, 2, 3, 0.08);
             box-shadow: 0px 5px 16px 5px rgba(0, 2, 3, 0.08); }
-    .task .task-contant-wrap > * + * {
+    .task .task-content-wrap > * + * {
       margin-top: 1em; }
-    .task .task-contant-wrap .task-icon {
+    .task .task-content-wrap .task-icon {
       font-size: 1.43em;
       width: 20px; }
-    .task .task-contant-wrap .time-row {
+    .task .task-content-wrap .time-row {
       -webkit-box-align: center;
       -webkit-align-items: center;
           -ms-flex-align: center;
               align-items: center; }
-      .task .task-contant-wrap .time-row .time {
+      .task .task-content-wrap .time-row .time {
         width: 90%;
-        padding-left: 5px; }
-    .task .task-contant-wrap .task-text-row .text {
+        padding-left: 10px; }
+    .task .task-content-wrap .task-text-row .text {
       width: 90%;
-      padding-left: 5px; }
+      padding-left: 10px; }
+    .task .task-content-wrap .task-edit-row {
+      width: 97%;
+      -webkit-box-pack: end;
+      -webkit-justify-content: flex-end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
+    .task .task-content-wrap .task-check-row.check-current {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex; }
+    .task .task-content-wrap .task-check-row .check {
+      width: 90%;
+      padding-left: 10px; }
+    .task .task-content-wrap .task-check-row input[type="checkbox"] {
+      display: none; }
+    .task .task-content-wrap .task-check-row input[type="checkbox"] + label {
+      cursor: pointer;
+      margin-right: 10px; }
+    .task .task-content-wrap .task-check-row .task-icon .icon-check {
+      color: #7cbb00; }
+  .task .task-message {
+    display: none;
+    padding-top: 1.5em;
+    font-size: 1.6em;
+    width: 80%; }
+    .task .task-message.done {
+      color: #7cbb00; }
+    .task .task-message.deadline {
+      color: #ff5201; }
+    .task .task-message .message-row {
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center; }
+      .task .task-message .message-row .task-icon {
+        font-size: 2em;
+        margin-right: 20px; }
 
 .to-do-time {
   width: 3.3333em;
@@ -410,16 +477,6 @@ button {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center; }
-
-.task-edit-row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end; }
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.83);
@@ -548,6 +605,10 @@ button {
             -ms-flex-direction: row;
                 flex-direction: row; } }
 
+/*Custom -- END*/
+/*Custom -- START*/
+/*Custom -- END*/
+/*Login -- START*/
 .log-in::before {
   content: '';
   display: inline-block;
@@ -614,3 +675,5 @@ button {
       .log-in .log-in-holder .checkbox-holder > * {
         color: #a0a0a0;
         font-size: 1.4em; }
+
+/*Login -- END*/
